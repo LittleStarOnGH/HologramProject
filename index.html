@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script async src="https://docs.opencv.org/4.5.4/opencv.js" type="text/javascript"></script>    
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SkeletonUtils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/curves/CurveExtras.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <title data-lang="top_title"> UEA "Hologram" Project </title>
+</head>
+
+
+<body>
+    <div class="lang-switch" id="lang-menu">
+        <button class="btn-lang" onclick="Change_Language('en')" >🇬🇧 EN</button>
+        <button class="btn-lang" onclick="Change_Language('it')" >🇮🇹 IT</button>
+    </div>
+
+    <div id="mode">
+       <div class="bg-equation eq-1">$$i\hbar \frac{\partial \psi}{\partial t} = \left[ -\frac{\hbar^2}{2m}\nabla^2 + V_{\text{ext}} + g|\psi|^2 \right]\psi$$</div>
+        <div class="bg-equation eq-2">$$\mathcal{L} = \sqrt{-g} \left[ \frac{1}{2\kappa^2}(R - 2\Lambda) - \frac{1}{4}F_{\mu\nu}F^{\mu\nu} - (D_\mu \Psi)^* D^\mu \Psi - m^2|\Psi|^2 \right]$$</div>
+        <div class="bg-equation eq-3">$$\rho\left(\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}\right) = -\nabla p + \mu\nabla^2\mathbf{u} + \rho\mathbf{f}$$</div>
+        <div class="bg-equation eq-4">$$\nabla^2\phi = 0$$</div>
+        <div class="bg-equation eq-5">$$\phi_z = 0$$</div>
+        <div class="bg-equation eq-6">$$\eta_t = \phi_z$$</div>
+
+        <a href="https://www.uea.ac.uk/">
+            <img src="pics/uea-logo.png" id="uea-logo">
+        </a>
+
+        <h1 data-lang="title">Hologram Project</h1>
+        <p data-lang="faculty">SCHOOL OF ENGINEERING MATHEMATICS & PHYSICS</p>
+        <br>
+        
+    <div class="emp-container">
+    <div class="emp-letters">
+
+        <a href="https://www.uea.ac.uk/course/undergraduate/beng-engineering" class="letter-wrapper">
+            <div class="letter">E</div>
+            <span class="letter-sub">ENGINEERING</span>
+        </a>
+
+        <a href="https://www.uea.ac.uk/course/undergraduate/bsc-mathematics" class="letter-wrapper">
+            <div class="letter">M</div>
+            <span class="letter-sub">MATHEMATICS</span>
+        </a>
+
+        <a href="https://www.uea.ac.uk/course/undergraduate/bsc-physics" class="letter-wrapper">
+            <div class="letter">P</div>
+            <span class="letter-sub">PHYSICS</span>
+        </a>   
+    </div>
+    </div>
+
+    <!--<button class="buttonstyle1" onclick="Display_Screen()" data-lang="btn_display"> Display </button>-->
+    <div>
+        <p class="instruction-text" data-lang="select_below"> PLEASE SELECT BELOW </p> 
+        <br>
+
+        <button class="buttonstyle1" onclick="Display_Screen()" data-lang="btn_display"> Display </button>
+        <p>========================</p>
+        <button class="buttonstyle1" onclick="Toggle_Guest_Box()" data-lang="btn_guest"> Guest Access </button>
+
+    <div id="guest-code-box" class="hidden code-box-container">
+        <input type="text" id="room-code-input" data-lang="box_code" placeholder="Enter 4-digit code" maxlength="4">
+        <button class="buttonstyle1" onclick="Connect_Screen()"data-lang="btn_connect"> Connect </button>
+    </div>
+        
+    <br><br>
+        <button class="btn" onclick="window.location.href='pjInfo.html'" data-lang="btn_proj_info"> Project Info </button>
+    </div>
+    </div>
+
+
+<div id="screen-view" class="hidden">
+    <div class="code-box" id="room-code-display-box">
+        <p data-lang="guest_remote_code">GUEST REMOTE CODE:</p>
+        <h1 id="hologram-room-number"></h1>
+    </div>
+    <div id="hologram-container"></div>
+</div>
+
+
+<div id="controller-view" class="hidden" >
+    <h1 data-lang="guest_control">Guest Control</h1>
+    
+    <div class="main-grid-layout">
+    <div class="control-section">
+        <p data-lang="cat_3d_objects"> 3D MODELS </p>
+        <div class="btn-grid">
+        
+        <button class="buttonstyle2" onclick="Select_Model('doorlock')"> Door Lock </button>
+        <button class="buttonstyle2" onclick="Select_Model('artifact')"> Foo Dog </button>
+        <button class="buttonstyle2" onclick="Select_Model('dragon')"> Dragon </button>
+        <button class="buttonstyle2" onclick="Select_Model('astronaut')"> Astronaut </button>
+    </div>
+    </div>
+
+
+    <div class="control-section">
+        <p data-lang="cat_knots"> KNOTS & CURVES</p>
+        <div class="btn-grid">
+        <button class="buttonstyle2" onclick="Select_Model ('TrefoilKnot')"> Trefoil Knot </button>
+        <button class="buttonstyle2" onclick="Select_Model ('FigureEightPolynomialKnot')"> Figure 8 Knot </button>
+        <button class="buttonstyle2" onclick="Select_Model('CinquefoilKnot')"> Cinquefoil Knot </button>
+        <button class="buttonstyle2" onclick="Select_Model('GrannyKnot')"> Granny Knot </button>
+        <button class="buttonstyle2" onclick="Select_Model('ComplexKnot')"> Complex Knot </button>
+        <button class="buttonstyle2" onclick="Select_Model('HeartCurve')"> HeartCurve </button>
+        <button class="buttonstyle2" onclick="Select_Model('VivianiCurve')"> VivianiCurve </button>
+    </div>
+    </div>
+   
+    <div class="control-section">
+        <p data-lang="cat_geometry">POLYHEDRONS & STANDARD GEOMETRY</p>
+        <div class="btn-grid">
+
+        <button class="buttonstyle2" onclick="Select_Model('Cube')"> Cube </button>
+        <button class="buttonstyle2" onclick="Select_Model('Torus')"> Torus </button>
+        <button class="buttonstyle2" onclick="Select_Model('ThreeTorus')"> 3 Torus </button>
+        <button class="buttonstyle2" onclick="Select_Model('Dodecahedron')"> Dodecahedron </button>
+        <button class="buttonstyle2" onclick="Select_Model('Octahedron')"> Octahedron </button>
+        <button class="buttonstyle2" onclick="Select_Model('Icosahedron')"> Icosahedron </button>
+         
+    </div>
+    </div>
+  
+    <div class="control-section">
+        <p data-lang="cat_complex">COMPLEX SHAPES</p>
+        <div class="btn-grid">
+        
+        <button class="buttonstyle2" onclick="Select_Model('NewShape')"> Mixed Shapes </button>
+        <button class="buttonstyle2" onclick="Select_Model('KleinBottle')"> Klein Bottle </button>
+        <button class="buttonstyle2" onclick="Select_Model('ApollonianGasket')"> Apollonian Gasket </button>
+        <button class="buttonstyle2" onclick="Select_Model('DNAPair')"> DNA Pair </button>
+        <button class="buttonstyle2" onclick="Select_Model('EggTray')"> Egg Tray </button>
+
+    </div>
+    </div>
+
+    <div class="control-section">
+    <p data-lang="cat_advanced">ADVANCED SIMULATION</p>
+    <div class="btn-grid">
+    <button class="buttonstyle2" onclick="Select_Model('Particles')"> Particles </button>
+        <button class="buttonstyle2" onclick="Select_Model('PancakeIce')"> Pancake Ice </button>
+        <button class="buttonstyle2" onclick="Select_Model('VortexReconnection')"> Vortex </button>
+    </div> 
+    </div> 
+
+</div>   
+
+
+    <div class="touchpad-layout">
+        <div id="touchpad" class="touchpad-box">
+            <p class="instruction-text" data-lang="swipe_lr"> Swipe to rotate left/right</p>
+        </div>
+        <div id="touchpad-2" class="touchpad-box">
+            <p class="instruction-text" data-lang="swipe_obj"> Swipe to rotate the object</p>
+        </div>
+    </div>
+            
+    <div class="control-section">
+        <h3 data-lang="adjustments">ADJUSTMENTS</h3>
+        <p class="slider-label" id="slider-label-scale" data-lang="adj_size">Adjusting the size</p>
+        <input type="range" id="scale-slider" min="0.5" max="4" step="0.1" value="2" oninput="Command('updateScale', this.value)" class="slider-input">
+        
+        <p class="slider-label" data-lang="adj_side_x" >Side Objects (x-axis)</p>
+        <input type="range" id="offset-slider-lr" min="-50" max="30" step="0.5" value="10.0" oninput="Command('updateOffsetLR', this.value)" class="slider-input">
+
+        <p class="slider-label" data-lang="adj_side_y">Side Objects (y-axis)</p>
+        <input type="range" id="side-y-slider" min="-10" max="0" step="0.1" value="-3.0" oninput="Command('updateSideY', this.value)" class="slider-input">
+        
+        <p class="slider-label" data-lang="adj_mid_y">Middle Object (y-axis)</p>
+        <input type="range" id="offset-slider-bottom" min="-10" max="10" step="0.5" value="3.0" oninput="Command('updateOffsetTop', this.value)" class="slider-input">
+
+        
+    </div>
+
+    <div class="control-section">
+        <h3 data-lang="toggles">TOGGLES & LIVE CAMERA</h3>
+        <div class="bottom-actions">
+            
+        <button class="buttonstyle2" onclick="Toggle_Colour_Picker()" data-lang="btn_color">Change Colour</button>
+        <div id="color-picker-modal" class="hidden">
+            <div class="color-picker-content">
+                <h3 style="margin-top: 0; color: #ffffff;" data-lang="btn_color">Colour</h3>
+                <div id="color-wheel-container"></div>
+                <button class="buttonstyle2" onclick="Toggle_Colour_Picker()" style="margin-top: 20px; background: #ef4444; color: white; border-color: #dc2626;">Close / Apply</button>
+            </div>
+        </div>
+            <button class="buttonstyle2" onclick="Toggle_Code_Box()" data-lang="btn_toggle_code">Toggle Code Box</button>
+            <button class="buttonstyle2" onclick="Toggle_Lines()" data-lang="btn_toggle_lines">Toggle Cut Lines</button>
+            <button class="buttonstyle2" onclick="Toggle_Lang_Menu()" data-lang="btn_toggle_lang">Toggle Language</button>
+            <button class="buttonstyle2 btn-camera" onclick="Select_Model('LiveCamera')" data-lang="btn_live_cam">Live Camera</button>
+        </div>
+    </div>
+</div>
+
+    <video id="webcam-video" autoplay muted playsinline style="position:absolute; opacity:0; pointer-events:none; z-index:-10;"></video>
+    <canvas id="opencv-output" style="position:absolute; opacity:0; pointer-events:none; z-index:-10;"></canvas>
+
+<script src="js/hologram3d.js"></script>
+<script src="js/control.js"></script>
+<script src="js/lang.js"></script>
+<script src="js/animation.js"></script>
+<script src="js/geometric.js"></script>
+<script src="js/loadmodel.js"></script>
+<script src="js/livecamera.js"></script>
+<script src="js/opencvlive.js"></script>
+</body>
+</html>
