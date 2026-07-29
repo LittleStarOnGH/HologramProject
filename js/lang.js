@@ -67,7 +67,8 @@ const change_lang = {
             
             To achieve this, we will use holographic duality - a powerful mathematical framework from particle physics and string theory—together with advanced numerical simulations to reveal new physics and guide future experiments`,
             
-        thanks_text:"   (づ ᴗ _ᴗ)づ Special thanks to all the technicians for their help with the machines and tools (づ ᴗ _ᴗ)づ   "
+        thanks_text:`Special thanks to all the technicians for their help with the machines and tools 
+        (づ ᴗ _ᴗ)づ`
     },
 
     it: {
@@ -139,7 +140,8 @@ const change_lang = {
         Per raggiungere questo obiettivo, utilizzeremo la dualità olografica - un potente quadro matematico proveniente dalla fisica delle particelle e dalla teoria delle stringhe - 
         insieme a simulazioni numeriche avanzate per svelare nuova fisica e guidare i futuri esperimenti.`,
         
-        thanks_text:`   (づ ᴗ _ᴗ)づ Un ringraziamento speciale a tutti i tecnici per il loro aiuto con i macchinari e le attrezzature. (づ ᴗ _ᴗ)づ   `
+        thanks_text:`Un ringraziamento speciale a tutti i tecnici per il loro aiuto con i macchinari e le attrezzature. 
+        (づ ᴗ _ᴗ)づ`
     }  
 };
 
