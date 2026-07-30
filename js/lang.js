@@ -48,7 +48,7 @@ const change_lang = {
         eq_holographic: "Holographic matter-gauge-gravity Lagrangian:",
         eq_navier: "Navier-Stokes equation:",
         eq_water_waves: "Linear water waves beneath a thin elastic ice sheet:",
-        equations: "EQUAZIONI DI CAMPO FONDAMENTALI",
+        equations: "FUNDAMENTAL FIELD EQUATIONS",
         from_intern:"MESSAGE FROM THE INTERN",
         intern_msg:`Hello! I'm Sohn ✧｡٩(ˊᗜˋ )و✧*｡
 
